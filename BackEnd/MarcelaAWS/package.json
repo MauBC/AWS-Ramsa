@@ -1,0 +1,15 @@
+{
+  "name": "marcela-aws-backend",
+  "version": "1.0.0",
+  "description": "AWS Serverless backend en Node.js",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "remove": "serverless remove"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.821.0",
+    "@aws-sdk/lib-dynamodb": "^3.821.0"
+  }
+}

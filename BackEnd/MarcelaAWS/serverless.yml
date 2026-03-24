@@ -1,0 +1,93 @@
+service: marcela-aws-backend
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: us-east-1
+  stage: dev
+
+  environment:
+    AUTOMATION_TABLE: automation-${sls:stage}
+    STAGE: ${sls:stage}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:Query
+          Resource:
+            - arn:aws:dynamodb:us-east-1:*:table/automation-${sls:stage}
+
+functions:
+  hello:
+    handler: app/handlers/hello.handler
+    events:
+      - httpApi:
+          path: /hello
+          method: get
+
+  health:
+    handler: app/handlers/health.handler
+    events:
+      - httpApi:
+          path: /health
+          method: get
+
+  searchUsers:
+    handler: app/handlers/users.search
+    events:
+      - httpApi:
+          path: /users/search
+          method: get
+
+  createRequest:
+    handler: app/handlers/requests.create
+    events:
+      - httpApi:
+          path: /requests
+          method: post
+
+  listRequests:
+    handler: app/handlers/requests.listAll
+    events:
+      - httpApi:
+          path: /requests
+          method: get
+
+  listProjects:
+    handler: app/handlers/projects.listProjects
+    events:
+      - httpApi:
+          path: /projects
+          method: get
+
+  createProject:
+    handler: app/handlers/projects.createProject
+    events:
+      - httpApi:
+          path: /projects
+          method: post
+
+resources:
+  Resources:
+    AutomationTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: automation-${sls:stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
