@@ -51,7 +51,7 @@ serverless deploy
 ---
 
 ## 📁 Estructura del proyecto
-
+```text
 AWS-Ramsa
 │
 ├── FrontEnd
@@ -59,7 +59,7 @@ AWS-Ramsa
 │
 └── BackEnd
     └── Serverless Node API
-
+```
 ---
 
 ## 👨‍💻 Autor
