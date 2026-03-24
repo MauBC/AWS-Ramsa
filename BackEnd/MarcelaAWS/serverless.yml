@@ -21,6 +21,7 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
             - dynamodb:Query
+            - dynamodb:BatchWriteItem
           Resource:
             - arn:aws:dynamodb:us-east-1:*:table/automation-${sls:stage}
 
@@ -73,6 +74,62 @@ functions:
       - httpApi:
           path: /projects
           method: post
+
+  createMasterCategory:
+    handler: app/handlers/masters.createCategory
+    events:
+      - httpApi:
+          path: /masters/categories
+          method: post
+
+  listMasterCategories:
+    handler: app/handlers/masters.listCategories
+    events:
+      - httpApi:
+          path: /masters/categories
+          method: get
+
+  deleteMasterCategory:
+    handler: app/handlers/masters.deleteCategory
+    events:
+      - httpApi:
+          path: /masters/categories/{categoryId}
+          method: delete
+
+  createMasterItem:
+    handler: app/handlers/masters.createItem
+    events:
+      - httpApi:
+          path: /masters/categories/{categoryId}/items
+          method: post
+
+  listMasterItems:
+    handler: app/handlers/masters.listItemsByCategory
+    events:
+      - httpApi:
+          path: /masters/categories/{categoryId}/items
+          method: get
+
+  deleteMasterItem:
+    handler: app/handlers/masters.deleteItem
+    events:
+      - httpApi:
+          path: /masters/categories/{categoryId}/items/{itemId}
+          method: delete
+
+  listPkTypes:
+    handler: app/handlers/masters.listPkTypes
+    events:
+      - httpApi:
+          path: /masters/pk-types
+          method: get
+
+  listItemsByPk:
+    handler: app/handlers/masters.listItemsByPk
+    events:
+      - httpApi:
+          path: /masters/pk-items
+          method: get
 
 resources:
   Resources:
