@@ -6,6 +6,25 @@ provider:
   region: us-east-1
   stage: dev
 
+  httpApi:
+    cors:
+      allowedOrigins:
+        - http://localhost:5173
+        - http://127.0.0.1:5173
+        - http://localhost:3000
+        - http://127.0.0.1:3000
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+      allowCredentials: false
+      
   environment:
     AUTOMATION_TABLE: automation-${sls:stage}
     STAGE: ${sls:stage}
@@ -130,6 +149,111 @@ functions:
       - httpApi:
           path: /masters/pk-items
           method: get
+
+  listCountries:
+    handler: app/handlers/countries.listAll
+    events:
+      - httpApi:
+          path: /countries
+          method: get
+
+  createCountry:
+    handler: app/handlers/countries.create
+    events:
+      - httpApi:
+          path: /countries
+          method: post
+
+  deleteCountry:
+    handler: app/handlers/countries.remove
+    events:
+      - httpApi:
+          path: /countries/{paisId}
+          method: delete
+
+  listCountryLabels:
+    handler: app/handlers/countries.listLabels
+    events:
+      - httpApi:
+          path: /countries/{paisId}/labels
+          method: get
+
+  createCountryLabel:
+    handler: app/handlers/countries.createLabel
+    events:
+      - httpApi:
+          path: /countries/{paisId}/labels
+          method: post
+
+  deleteCountryLabel:
+    handler: app/handlers/countries.removeLabel
+    events:
+      - httpApi:
+          path: /countries/{paisId}/labels/{labelId}
+          method: delete
+
+  listCountryBusinesses:
+    handler: app/handlers/countries.listBusinesses
+    events:
+      - httpApi:
+          path: /countries/{paisId}/labels/{labelId}/businesses
+          method: get
+
+  createCountryBusiness:
+    handler: app/handlers/countries.createBusiness
+    events:
+      - httpApi:
+          path: /countries/{paisId}/labels/{labelId}/businesses
+          method: post
+
+  deleteCountryBusiness:
+    handler: app/handlers/countries.removeBusiness
+    events:
+      - httpApi:
+          path: /countries/{paisId}/labels/{labelId}/businesses/{negocioId}
+          method: delete
+
+  listBenefits:
+    handler: app/handlers/benefits.listAll
+    events:
+      - httpApi:
+          path: /benefits
+          method: get
+
+  createBenefit:
+    handler: app/handlers/benefits.create
+    events:
+      - httpApi:
+          path: /benefits
+          method: post
+
+  deleteBenefit:
+    handler: app/handlers/benefits.remove
+    events:
+      - httpApi:
+          path: /benefits/{beneficioId}
+          method: delete
+
+  listCatalog:
+    handler: app/handlers/catalog.listAll
+    events:
+      - httpApi:
+          path: /catalog
+          method: get
+
+  createCatalog:
+    handler: app/handlers/catalog.create
+    events:
+      - httpApi:
+          path: /catalog
+          method: post
+
+  deleteCatalog:
+    handler: app/handlers/catalog.remove
+    events:
+      - httpApi:
+          path: /catalog/{catalogoId}
+          method: delete
 
 resources:
   Resources:

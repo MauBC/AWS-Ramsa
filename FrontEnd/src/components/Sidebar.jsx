@@ -1,21 +1,36 @@
-function Sidebar({ sidebarOpen, setSidebarOpen, activePage, setActivePage, logout, userData }){
+function Sidebar({
+  sidebarOpen,
+  setSidebarOpen,
+  activePage,
+  setActivePage,
+  logout,
+  userData,
+}) {
+  const isAdmin = Boolean(userData?.is_admin);
 
   const menu = [
-  { key: "perfil", label: "Perfil y Guia", icon: "👤" },
-  { key: "recomendador", label: "Recomendador", icon: "✨" },
-  { key: "catalogo", label: "Catalogo", icon: "📦" },
-  { key: "mis", label: "Mis Solicitudes", icon: "📄" },
-  { key: "nueva", label: "Nueva Solicitud", icon: "➕" },
-  { key: "faqprivado", label: "FAQ", icon: "❓" },
+    { key: "perfil", label: "Perfil y Guia", icon: "👤" },
+    { key: "recomendador", label: "Recomendador", icon: "✨" },
+    { key: "catalogo", label: "Catalogo", icon: "📦" },
+    { key: "mis", label: "Mis Solicitudes", icon: "📄" },
+    { key: "nueva", label: "Nueva Solicitud", icon: "➕" },
+    { key: "faqprivado", label: "FAQ", icon: "❓" },
 
-  ...(userData?.is_admin
-    ? [{ key: "maestros", label: "Maestros", icon: "🧠" }]
-    : [])
-];
+    ...(isAdmin
+      ? [
+          { key: "maestros", label: "Maestros", icon: "🧠" },
+          { key: "countries_admin", label: "Paises", icon: "🌎" },
+          { key: "benefits_admin", label: "Beneficios", icon: "🎯" },
+          { key: "catalog_admin", label: "Catalogo Admin", icon: "🗂️" },
+        ]
+      : []),
+  ];
 
   return (
     <aside className={sidebarOpen ? "sidebar open" : "sidebar"}>
-      <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
+      <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        ☰
+      </button>
 
       <div className="logo-box">
         <span className="icon-box">🟢</span>

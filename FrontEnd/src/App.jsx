@@ -13,8 +13,12 @@ import NuevaSolicitudPage from "./components/NuevaSolicitudPage";
 import FAQPage from "./components/FAQPage";
 import MaestrosPage from "./components/MaestrosPage";
 
-function App() {
+import CountriesAdminPage from "./components/CountriesAdminPage";
+import BenefitsAdminPage from "./components/BenefitsAdminPage";
+import CatalogAdminPage from "./components/CatalogAdminPage";
 
+
+function App() {
   const [panelType, setPanelType] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,18 +38,34 @@ function App() {
     switch (activePage) {
       case "perfil":
         return <ProfilePage userData={userData} />;
+
       case "recomendador":
         return <RecomendadorPage />;
+
       case "catalogo":
         return <CatalogoPage />;
+
       case "mis":
         return <MisSolicitudesPage />;
+
       case "nueva":
         return <NuevaSolicitudPage />;
+
       case "faqprivado":
         return <FAQPage />;
+
       case "maestros":
         return <MaestrosPage />;
+
+      case "countries_admin":
+        return <CountriesAdminPage />;
+
+      case "benefits_admin":
+        return <BenefitsAdminPage />;
+
+      case "catalog_admin":
+        return <CatalogAdminPage />;
+
       default:
         return null;
     }
@@ -63,9 +83,7 @@ function App() {
           userData={userData}
         />
 
-        <main className="private-content">
-          {renderPage()}
-        </main>
+        <main className="private-content">{renderPage()}</main>
       </div>
     );
   }
